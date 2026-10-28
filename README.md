@@ -1,36 +1,34 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Horsey Maker 🐴
 
-## Getting Started
+A tiny Next.js app for designing silly racing horsies for the office race board. Pick colors, patterns, leg length,
+leg count, hair, face and headwear, then download a PDF to print, cut out and stick on the whiteboard with a magnet.
 
-First, run the development server:
+- **Customize:** coat, pattern (stripes, spots, patches, checkers), hair and tail, hooves, body/neck/leg proportions,
+  number of legs, eyes, mouth, headwear, racing number, facing direction
+- **Save:** horsies are kept in the browser's local storage ("Your stable"), no account or database needed
+- **Share:** Download PDF (US Letter, small/medium/large with a dotted cut line), PNG for Slack, or Copy link, which puts
+  the whole design in the URL
+
+## Run it locally
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deploy to Vercel
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Push this repo to GitHub.
+2. Go to [vercel.com/new](https://vercel.com/new), import the repo, and click **Deploy**. No settings or environment
+   variables are needed.
 
-## Learn More
+Or from the terminal with the [Vercel CLI](https://vercel.com/docs/cli): `npx vercel` (then `npx vercel --prod`).
 
-To learn more about Next.js, take a look at the following resources:
+## Where things live
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `src/lib/horsey.ts` – the horsey data shape, defaults, randomizer and share-link encoding
+- `src/components/HorseySvg.tsx` – draws a horsey as SVG from its settings
+- `src/components/HorseyMaker.tsx` – the editor, stable and export buttons
+- `src/lib/exportHorsey.ts`, `src/lib/pdfLayout.ts` – PNG and PDF export
