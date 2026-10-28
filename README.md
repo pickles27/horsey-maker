@@ -6,7 +6,7 @@ leg count, hair, face and headwear, then download a PDF to print, cut out and st
 - **Customize:** coat, pattern (stripes, spots, patches, checkers), hair and tail, hooves, body/neck/leg proportions,
   number of legs, eyes, mouth, headwear, racing number, facing direction
 - **Save:** horsies are kept in the browser's local storage ("Your stable"), no account or database needed
-- **Share:** Download PDF (US Letter, small/medium/large with a dotted cut line), PNG for Slack, or Copy link, which puts
+- **Share:** Download PDF (US Letter, a 3 in horsey with a dotted cut line), PNG for Slack, or Copy link, which puts
   the whole design in the URL
 
 ## Run it locally

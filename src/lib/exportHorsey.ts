@@ -1,12 +1,8 @@
 import { fileSafeName, type Horsey } from "@/lib/horsey";
 import { layoutHorseyPage } from "@/lib/pdfLayout";
 
-export const PRINT_SIZES = {
-  small: { label: "Small (3 in)", inches: 3 },
-  medium: { label: "Medium (5 in)", inches: 5 },
-  large: { label: "Large (7 in)", inches: 7 },
-} as const;
-export type PrintSize = keyof typeof PRINT_SIZES;
+/** The printed horsey fits in a square this many inches wide. */
+const PRINT_INCHES = 3;
 
 /** Draws the horsey SVG onto a canvas whose longest side is `longest` pixels. */
 async function svgToCanvas(svg: SVGSVGElement, longest: number) {
@@ -60,13 +56,12 @@ export async function downloadPng(svg: SVGSVGElement, horsey: Horsey) {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
-/** One horsey per US Letter page, sized to fit a square of the chosen size. */
-export async function downloadPdf(svg: SVGSVGElement, horsey: Horsey, size: PrintSize) {
+/** One horsey per US Letter page. */
+export async function downloadPdf(svg: SVGSVGElement, horsey: Horsey) {
   const { jsPDF } = await import("jspdf");
-  const box = PRINT_SIZES[size].inches;
-  const { canvas, width, height } = await svgToCanvas(svg, Math.round(box * 300));
+  const { canvas, width, height } = await svgToCanvas(svg, Math.round(PRINT_INCHES * 300));
 
   const doc = new jsPDF({ unit: "in", format: "letter", orientation: "portrait", compress: true });
-  layoutHorseyPage(doc, { dataUrl: canvas.toDataURL("image/png"), width, height }, horsey.name, box);
+  layoutHorseyPage(doc, { dataUrl: canvas.toDataURL("image/png"), width, height }, horsey.name, PRINT_INCHES);
   doc.save(`${fileSafeName(horsey)}.pdf`);
 }

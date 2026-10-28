@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { HorseySvg } from "@/components/HorseySvg";
-import { downloadPdf, downloadPng, PRINT_SIZES, type PrintSize } from "@/lib/exportHorsey";
+import { downloadPdf, downloadPng } from "@/lib/exportHorsey";
 import {
   ACCENT_SWATCHES,
   ACCESSORIES,
@@ -105,7 +105,6 @@ export default function HorseyMaker() {
   const [horsey, setHorsey] = useState<Horsey>(initialHorsey);
   const [stable, setStable] = useState<Saved[]>(initialStable);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [printSize, setPrintSize] = useState<PrintSize>("small");
   const [busy, setBusy] = useState<"png" | "pdf" | null>(null);
   const [toast, setToast] = useState<string | null>(null);
   const svgRef = useRef<SVGSVGElement>(null);
@@ -164,7 +163,7 @@ export default function HorseyMaker() {
     setBusy(kind);
     try {
       if (kind === "png") await downloadPng(svgRef.current, horsey);
-      else await downloadPdf(svgRef.current, horsey, printSize);
+      else await downloadPdf(svgRef.current, horsey);
     } catch (err) {
       flash(err instanceof Error ? err.message : "Export failed");
     } finally {
@@ -243,18 +242,6 @@ export default function HorseyMaker() {
           <div className="rounded-2xl border-2 border-dashed border-ink/25 p-3">
             <p className="mb-2 text-sm font-semibold text-ink/70">Send it to the race organizer</p>
             <div className="flex flex-wrap items-center gap-2">
-              <select
-                className="input w-auto py-2"
-                value={printSize}
-                onChange={(e) => setPrintSize(e.target.value as PrintSize)}
-                aria-label="Print size"
-              >
-                {Object.entries(PRINT_SIZES).map(([key, s]) => (
-                  <option key={key} value={key}>
-                    {s.label}
-                  </option>
-                ))}
-              </select>
               <button type="button" className="btn btn-pink" disabled={!!busy} onClick={() => exportAs("pdf")}>
                 {busy === "pdf" ? "Making PDF…" : "📄 Download PDF"}
               </button>
